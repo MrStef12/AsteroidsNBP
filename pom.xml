@@ -63,6 +63,7 @@
         <module>Wrapper</module>
         <module>Asteroids</module>
         <module>Weapon</module>
+    <module>Collision</module>
   </modules>
 
     <properties>
