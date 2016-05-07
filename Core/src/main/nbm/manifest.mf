@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+OpenIDE-Module-Install: dk/sdu/sb4/stefh/core/Installer.class
+OpenIDE-Module-Localizing-Bundle: dk/sdu/sb4/stefh/core/Bundle.properties
+

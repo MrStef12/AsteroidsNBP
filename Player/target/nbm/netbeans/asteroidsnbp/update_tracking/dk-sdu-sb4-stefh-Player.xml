@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><module codename="dk.sdu.sb4.stefh.Player">
+    <module_version install_time="1461846550582" last="true" origin="installer" specification_version="1.0.0">
+        <file crc="438264478" name="config/Modules/dk-sdu-sb4-stefh-Player.xml"/>
+        <file crc="2568739975" name="modules/dk-sdu-sb4-stefh-Player.jar"/>
+    </module_version>
+</module>

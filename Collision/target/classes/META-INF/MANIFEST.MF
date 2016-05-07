@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1462619228849
+Build-Jdk: 1.8.0_51
+Built-By: stefh
+Bundle-Activator: dk.sdu.sb4.stefh.collision.Activator
+Bundle-ManifestVersion: 2
+Bundle-Name: Collision OSGi Bundle
+Bundle-SymbolicName: dk.sdu.sb4.stefh.Collision
+Bundle-Version: 1.0.0.SNAPSHOT
+Created-By: Apache Maven Bundle Plugin
+Import-Package: org.osgi.framework;version="[1.6,2)"
+Tool: Bnd-1.50.0
