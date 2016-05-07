@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><module codename="dk.sdu.sb4.stefh.Weapon">
-    <module_version install_time="1461846555801" last="true" origin="installer" specification_version="1.0.0">
-        <file crc="3131700812" name="config/Modules/dk-sdu-sb4-stefh-Weapon.xml"/>
-        <file crc="2881202698" name="modules/dk-sdu-sb4-stefh-Weapon.jar"/>
-    </module_version>
-</module>
