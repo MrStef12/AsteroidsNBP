@@ -5,6 +5,8 @@
  */
 package dk.sdu.sb4.stefh.asteroids;
 
+import dk.sdu.sb4.stefh.asteroids.spring.AsteroidsFactoryConfig;
+import dk.sdu.sb4.stefh.asteroids.spring.IAsteroidsFactory;
 import dk.sdu.sb4.stefh.common.data.Entity;
 import dk.sdu.sb4.stefh.common.data.EntityType;
 import dk.sdu.sb4.stefh.common.data.GameData;
@@ -14,6 +16,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import org.openide.util.lookup.ServiceProvider;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
  *
@@ -23,10 +27,16 @@ import org.openide.util.lookup.ServiceProvider;
 public class AsteroidControlSystem implements IEntityProcessingService {
     
     private List<Entity> asteroids = new ArrayList<>();
-    Random r = new Random();
+    private Random r = new Random();
+    private ApplicationContext spring;
+    private IAsteroidsFactory factory;
     
     @Override
     public void process(GameData gameData, Map<String, Entity> world, Entity entity) {
+        if(spring == null) {
+            spring = new AnnotationConfigApplicationContext(AsteroidsFactoryConfig.class);
+        }
+        factory = (IAsteroidsFactory) spring.getBean("asteroidsFactory");
         if(asteroids.size() <= 0) {
             spawnAsteroids(gameData, world);
         }
@@ -53,67 +63,16 @@ public class AsteroidControlSystem implements IEntityProcessingService {
             float[] points;
             Entity asteroid;
             if(size < 2) {         // Small asteroid
-                asteroid = getSmallAsteroid();
+                asteroid = factory.getAsteroid(IAsteroidsFactory.SMALL_ASTEROID);
             } else if(size < 5) {  // Medium asteroid
-                asteroid = getMediumAsteroid();
+                asteroid = factory.getAsteroid(IAsteroidsFactory.MEDIUM_ASTEROID);
             } else {                // Big asteroid
-                asteroid = getLargeAsteroid();
+                asteroid = factory.getAsteroid(IAsteroidsFactory.LARGE_ASTEROID);
             }
             asteroid.setPosition(r.nextInt(game.getDisplayWidth()), r.nextInt(game.getDisplayHeight()));
             asteroids.add(asteroid);
             world.put(asteroid.getID(), asteroid);
         }
-    }
-    
-    private Entity getSmallAsteroid() {
-        Entity asteroid = new Entity();
-        asteroid.setType(EntityType.ASTEROIDS);
-        asteroid.setDx(r.nextFloat()*2-1f);
-        asteroid.setDy(r.nextFloat()*2-1f);
-        float[] points = new float[8];
-        asteroid.setHealth(1);
-        asteroid.setMaxSpeed(100);
-        asteroid.setRotationSpeed(r.nextInt(7)-3);
-        asteroid.setSize(12, 12);
-        for (int j=0; j<points.length; j++) {
-            points[j] = r.nextInt(4)+3;
-        }
-        asteroid.setAsteroidDists(points);
-        return asteroid;
-    }
-    
-    private Entity getMediumAsteroid() {
-        Entity asteroid = new Entity();
-        asteroid.setType(EntityType.ASTEROIDS);
-        asteroid.setDx(r.nextFloat()*2-1f);
-        asteroid.setDy(r.nextFloat()*2-1f);
-        float[] points = new float[10];
-        asteroid.setHealth(2);
-        asteroid.setMaxSpeed(75);
-        asteroid.setRotationSpeed(r.nextInt(5)-2);
-        asteroid.setSize(20, 20);
-        for (int j=0; j<points.length; j++) {
-            points[j] = r.nextInt(6)+5;
-        }
-        asteroid.setAsteroidDists(points);
-        return asteroid;
-    }
-    
-    private Entity getLargeAsteroid() {
-        Entity asteroid = new Entity();
-        asteroid.setType(EntityType.ASTEROIDS);
-        asteroid.setDx(r.nextFloat()*2-1f);
-        asteroid.setDy(r.nextFloat()*2-1f);
-        float[] points = new float[12];
-        asteroid.setHealth(3);
-        asteroid.setMaxSpeed(20);
-        asteroid.setRotationSpeed(r.nextInt(3)-1);
-        asteroid.setSize(40,40);
-        for (int j=0; j<points.length; j++) {
-            points[j] = r.nextInt(11)+10;
-        }
-        asteroid.setAsteroidDists(points);
-        return asteroid;
     }
     
     private void destroyAsteroid(Map<String, Entity> world, Entity asteroid) {
@@ -123,9 +82,9 @@ public class AsteroidControlSystem implements IEntityProcessingService {
             for(int i=0; i<2; i++) {
                 Entity newAsteroid;
                 if(asteroid.getHealth() == 3) {
-                    newAsteroid = getMediumAsteroid();
+                    newAsteroid = factory.getAsteroid(IAsteroidsFactory.MEDIUM_ASTEROID);
                 } else {
-                    newAsteroid = getSmallAsteroid();
+                    newAsteroid = factory.getAsteroid(IAsteroidsFactory.SMALL_ASTEROID);
                 }
                 newAsteroid.setPosition(asteroid.getX(), asteroid.getY());
                 world.put(newAsteroid.getID(), newAsteroid);
