@@ -64,7 +64,8 @@
         <module>Asteroids</module>
         <module>Weapon</module>
     <module>Collision</module>
-  </modules>
+        <module>OSGiLauncher</module>
+    </modules>
 
     <properties>
         <netbeans.version>RELEASE81</netbeans.version>

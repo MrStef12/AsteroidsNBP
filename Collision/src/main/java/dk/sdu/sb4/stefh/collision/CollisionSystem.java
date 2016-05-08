@@ -14,6 +14,7 @@ public class CollisionSystem implements IEntityProcessingService {
     
     @Override
     public void process(GameData gameData, Map<String, Entity> world, Entity entity) {
+        System.out.println("CollsisionSystem!");
         checkPlayer(world, entity);
         checkBullet(world, entity);
     }

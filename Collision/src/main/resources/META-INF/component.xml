@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="codabook.agecalculator.osgi.impl">
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="dk.sdu.sb4.stefh.collision">
    <implementation class="dk.sdu.sb4.stefh.collision.CollisionSystem"/>
    <service>
       <provide interface="dk.sdu.sb4.stefh.common.services.IEntityProcessingService"/>

@@ -1,3 +1,7 @@
-Bundle-SymbolicName: Collision
+Manifest-Version: 1.0
+Bundle-Name: Collision
+Bundle-SymbolicName: dk.sdu.sb4.stefh.collision.CollisionSystem
+Bundle-Version: 1.0.0-SNAPSHOT
 Bundle-ActivationPolicy: lazy
 Service-Component: META-INF/component.xml
+Import-Package: dk.sdu.sb4.stefh.common.services
