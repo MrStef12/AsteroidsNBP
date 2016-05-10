@@ -29,12 +29,13 @@ public class WeaponControlSystem implements IEntityProcessingService {
     public void process(GameData gameData, Map<String, Entity> world, Entity entity) {
         if(entity.getType() == EntityType.PLAYER) {
             if(!entity.isDestroyed() && gameData.getKeys().isPressed(GameKeys.SPACE)) {
-                Entity b = shootBullet(gameData, entity);
-                bulletLifetimes.put(b.getID(), 0f);
-                world.put(b.getID(), b);
+                shootBullet(gameData, world, entity);
             }
-        }
-        if(entity.getType() == EntityType.BULLET) {
+        } else if(entity.getType() == EntityType.ENEMY) {
+            if(Math.random() > 0.8) {
+                shootBullet(gameData, world, entity);
+            }
+        } else if(entity.getType() == EntityType.BULLET) {
             update(gameData, entity);
             setShape(entity);
             if(bulletLifetimes.get(entity.getID()) > BULLET_LIFE_TIME) {
@@ -73,9 +74,16 @@ public class WeaponControlSystem implements IEntityProcessingService {
         b.setShapeY(shapeY);
     }
     
-    private Entity shootBullet(GameData g, Entity p) {
+    private void shootBullet(GameData g, Map<String, Entity> world, Entity p) {
+        Entity b = generateBullet(g, p);
+        bulletLifetimes.put(b.getID(), 0f);
+        world.put(b.getID(), b);
+    }
+    
+    private Entity generateBullet(GameData g, Entity p) {
         Entity bullet = new Entity();
         bullet.setType(EntityType.BULLET);
+        bullet.setEnemyBullet(p.getType() == EntityType.ENEMY);
         bullet.setX(p.getX());
         bullet.setY(p.getY());
         bullet.setRadians(p.getRadians());

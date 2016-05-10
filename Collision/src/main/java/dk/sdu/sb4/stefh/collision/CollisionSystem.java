@@ -33,7 +33,14 @@ public class CollisionSystem implements IEntityProcessingService {
     private void checkBullet(Map<String, Entity> world, Entity entity) {
         if(entity.getType() == EntityType.BULLET) {
             for(Entity object : world.values()) {
-                if(object.getType() == EntityType.ASTEROIDS && collides(object, entity)) {
+                if((entity.isEnemyBullet()
+                        && object.getType() == EntityType.PLAYER 
+                        && collides(object, entity)
+                        ) || (
+                        !entity.isEnemyBullet()
+                        && object.getType() == EntityType.ASTEROIDS 
+                        && collides(object, entity)
+                        )) {
                     entity.setDestroyed(true);
                     object.setDestroyed(true);
                 }

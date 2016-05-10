@@ -6,7 +6,6 @@ import java.util.UUID;
 public final class Entity implements Serializable {
 
     private final UUID ID = UUID.randomUUID();
-    private String owner;
     private EntityType type;
     private float x;
     private float y;
@@ -24,15 +23,16 @@ public final class Entity implements Serializable {
     private float[] asteroidDists;
     private int health;
     private boolean destroyed = false;
+    private boolean enemyBullet = false;
 
-    public String getOwner() {
-        return owner;
+    public boolean isEnemyBullet() {
+        return enemyBullet;
     }
 
-    public void setOwner(String owner) {
-        this.owner = owner;
+    public void setEnemyBullet(boolean enemyBullet) {
+        this.enemyBullet = enemyBullet;
     }
-
+    
     public boolean isDestroyed() {
         return destroyed;
     }
