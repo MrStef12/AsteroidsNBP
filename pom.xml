@@ -65,7 +65,8 @@
         <module>Weapon</module>
     <module>Collision</module>
         <module>OSGiLauncher</module>
-    </modules>
+    <module>Enemy</module>
+  </modules>
 
     <properties>
         <netbeans.version>RELEASE81</netbeans.version>
