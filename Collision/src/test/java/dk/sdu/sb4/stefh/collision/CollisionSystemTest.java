@@ -24,6 +24,8 @@ import static org.junit.Assert.*;
 public class CollisionSystemTest {
     
     private CollisionSystem colsys;
+    Map<String, Entity> world;
+    private Entity player;
     
     @BeforeClass
     public static void setUpClass() {
@@ -36,10 +38,32 @@ public class CollisionSystemTest {
     @Before
     public void setUp() {
         colsys = new CollisionSystem();
+        world = new HashMap<>();
+        player = new Entity();
+        player.setType(EntityType.PLAYER);
+        player.setSize(16, 16);
+        player.setPosition(0, 0);
     }
     
     @After
     public void tearDown() {
+    }
+    
+    @Test
+    public void testCheckPlayer() {
+        System.out.println("checkPlayer");
+        Entity asteroid = new Entity();
+        asteroid.setType(EntityType.ASTEROIDS);
+        asteroid.setSize(16, 16);
+        asteroid.setPosition(50, 50);
+        world.put(asteroid.getID(), asteroid);
+        
+        colsys.checkPlayer(world, player);
+        assertFalse(player.isDestroyed());
+        
+        asteroid.setPosition(0, 0);
+        colsys.checkPlayer(world, player);
+        assertTrue(player.isDestroyed());
     }
 
     /**
@@ -49,14 +73,9 @@ public class CollisionSystemTest {
     public void testCheckBullet() {
         System.out.println("checkBullet");
         Entity bullet = new Entity();
-        Entity player = new Entity();
-        Map<String, Entity> world = new HashMap<>();
         bullet.setType(EntityType.BULLET);
-        player.setType(EntityType.PLAYER);
         bullet.setSize(16, 16);
-        player.setSize(16, 16);
         bullet.setPosition(0, 0);
-        player.setPosition(0, 0);
         world.put(player.getID(), player);
         
         bullet.setEnemyBullet(false);
@@ -75,15 +94,12 @@ public class CollisionSystemTest {
     public void testCollides() {
         System.out.println("collides");
         Entity e1 = new Entity();
-        Entity e2 = new Entity();
         e1.setSize(16, 16);
-        e2.setSize(16, 16);
         e1.setPosition(0, 0);
-        e2.setPosition(0, 0);
-        assertTrue(colsys.collides(e1, e2));
+        assertTrue(colsys.collides(e1, player));
         
-        e2.setPosition(20, 20);
-        assertFalse(colsys.collides(e1, e2));
+        e1.setPosition(20, 20);
+        assertFalse(colsys.collides(e1, player));
     }
     
 }
