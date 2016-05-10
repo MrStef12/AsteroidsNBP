@@ -18,7 +18,12 @@ public class CollisionSystem implements IEntityProcessingService {
         checkBullet(world, entity);
     }
     
-    private void checkPlayer(Map<String, Entity> world, Entity entity) {
+    /**
+     * Checks for player specific collision like collision with asteroids.
+     * @param world
+     * @param entity Player entity
+     */
+    public void checkPlayer(Map<String, Entity> world, Entity entity) {
         if(entity.getType() == EntityType.PLAYER) {
             for (Entity object : world.values()) {
                 if (object.getType() == EntityType.ASTEROIDS) {
@@ -30,7 +35,13 @@ public class CollisionSystem implements IEntityProcessingService {
         }
     }
     
-    private void checkBullet(Map<String, Entity> world, Entity entity) {
+    /**
+     * Checks for bullet specific collision like collision with player, enemy 
+     * and asteroids
+     * @param world
+     * @param entity 
+     */
+    public void checkBullet(Map<String, Entity> world, Entity entity) {
         if(entity.getType() == EntityType.BULLET) {
             for(Entity object : world.values()) {
                 if((entity.isEnemyBullet()
@@ -38,7 +49,8 @@ public class CollisionSystem implements IEntityProcessingService {
                         && collides(object, entity)
                         ) || (
                         !entity.isEnemyBullet()
-                        && object.getType() == EntityType.ASTEROIDS 
+                        && (object.getType() == EntityType.ASTEROIDS 
+                            || object.getType() == EntityType.ENEMY)
                         && collides(object, entity)
                         )) {
                     entity.setDestroyed(true);
@@ -48,7 +60,13 @@ public class CollisionSystem implements IEntityProcessingService {
         }
     }
     
-    private boolean collides(Entity e1, Entity e2) {
+    /**
+     * Checks if the given entities collide with each other
+     * @param e1
+     * @param e2
+     * @return True if they collide. Otherwise false
+     */
+    public boolean collides(Entity e1, Entity e2) {
         float dx = e1.getX() - e2.getX();
         float dy = e1.getY() - e2.getY();
         double distance = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
