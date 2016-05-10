@@ -37,7 +37,7 @@ public class AsteroidControlSystem implements IEntityProcessingService {
             spring = new AnnotationConfigApplicationContext(AsteroidsFactoryConfig.class);
         }
         factory = (IAsteroidsFactory) spring.getBean("asteroidsFactory");
-        if(asteroids.size() <= 0) {
+        if(asteroids.isEmpty()) {
             spawnAsteroids(gameData, world);
         }
         if(entity.getType() == EntityType.ASTEROIDS) {
