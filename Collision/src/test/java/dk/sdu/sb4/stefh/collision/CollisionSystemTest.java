@@ -7,7 +7,6 @@ package dk.sdu.sb4.stefh.collision;
 
 import dk.sdu.sb4.stefh.common.data.Entity;
 import dk.sdu.sb4.stefh.common.data.EntityType;
-import dk.sdu.sb4.stefh.common.data.GameData;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.After;
