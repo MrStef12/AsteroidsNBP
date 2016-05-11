@@ -32,7 +32,7 @@ public class WeaponControlSystem implements IEntityProcessingService {
                 shootBullet(gameData, world, entity);
             }
         } else if(entity.getType() == EntityType.ENEMY) {
-            if(Math.random() > 0.8) {
+            if(Math.random() > 0.95) {
                 shootBullet(gameData, world, entity);
             }
         } else if(entity.getType() == EntityType.BULLET) {
