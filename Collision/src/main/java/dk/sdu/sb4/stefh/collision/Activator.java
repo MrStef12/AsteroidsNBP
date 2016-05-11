@@ -17,7 +17,7 @@ public class Activator implements BundleActivator {
     
     @Override
     public void start(BundleContext context) throws Exception {
-        context.registerService(IEntityProcessingService.class, new CollisionSystem(), null);
+        //context.registerService(IEntityProcessingService.class, new CollisionSystem(), null);
     }
     
     @Override

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="dk.sdu.sb4.stefh.collision">
+   <implementation class="dk.sdu.sb4.stefh.osgideclarativeservice.Activator"/>
+   <reference name="IEntityProcessingService"
+            interface="dk.sdu.sb4.stefh.common.services.IEntityProcesssingService"
+            cardinality="1..1"
+            policy="dynamic"
+            bind="gotService"
+            unbind="lostService">
+   </reference>    
+</scr:component>

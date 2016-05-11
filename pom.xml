@@ -66,6 +66,7 @@
     <module>Collision</module>
         <module>OSGiLauncher</module>
     <module>Enemy</module>
+    <module>OSGiDeclarativeService</module>
   </modules>
 
     <properties>
