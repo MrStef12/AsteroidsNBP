@@ -2,6 +2,5 @@ Manifest-Version: 1.0
 Bundle-Name: Collision
 Bundle-SymbolicName: dk.sdu.sb4.stefh.collision.CollisionSystem
 Bundle-ActivationPolicy: lazy
-Bundle-Activator: dk.sdu.sb4.stefh.collision.Activator
 Service-Component: META-INF/component.xml
 Import-Package: dk.sdu.sb4.stefh.common.services
