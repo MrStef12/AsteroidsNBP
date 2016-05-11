@@ -28,5 +28,4 @@ public class EntityPlugin implements IGamePluginService {
             }
         }
     }
-    
 }
