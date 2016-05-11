@@ -48,6 +48,9 @@ public class CollisionSystemTest {
     public void tearDown() {
     }
     
+    /**
+     * Test of checkPlayer method, of class CollisionSystem.
+     */
     @Test
     public void testCheckPlayer() {
         System.out.println("checkPlayer");
