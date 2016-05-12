@@ -9,8 +9,8 @@ import dk.sdu.sb4.stefh.common.data.Entity;
 import dk.sdu.sb4.stefh.common.data.EntityType;
 import dk.sdu.sb4.stefh.common.data.GameData;
 import dk.sdu.sb4.stefh.common.services.IEntityProcessingService;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -40,7 +40,7 @@ public class AsteroidControlSystemTest {
     @Before
     public void setUp() {
         sys = new AsteroidControlSystem();
-        world = new HashMap<>();
+        world = new ConcurrentHashMap<>();
         gameData = new GameData();
         player = new Entity();
         gameData.setDisplayHeight(100);
@@ -85,6 +85,11 @@ public class AsteroidControlSystemTest {
         assertEquals(countAsteroidsWithHealth(2), asteroidWith2Health+2);
     }
     
+    /**
+     * Counts the amount of asteroids with the given health
+     * @param health Health to count
+     * @return 
+     */
     private int countAsteroidsWithHealth(int health) {
         int count = 0;
         for(Entity e : world.values()) {
@@ -94,6 +99,10 @@ public class AsteroidControlSystemTest {
         return count;
     }
     
+    /**
+     * Finds the first instance of an asteroid in the world
+     * @return An asteroid entity
+     */
     private Entity getAsteroid() {
         for(Entity e : world.values()) {
             if(e.getType() == EntityType.ASTEROIDS) {
