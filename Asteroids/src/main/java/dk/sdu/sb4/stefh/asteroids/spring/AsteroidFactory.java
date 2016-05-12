@@ -19,7 +19,6 @@ public class AsteroidFactory implements IAsteroidsFactory {
     private Random r;
     
     public AsteroidFactory() {
-        System.out.println("Asteroids factory ready!");
         r = new Random();
     }
     
