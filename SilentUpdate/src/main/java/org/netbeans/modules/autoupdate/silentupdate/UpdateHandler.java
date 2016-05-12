@@ -48,6 +48,7 @@ public final class UpdateHandler {
     }
 
     public static void checkAndHandleUpdates() {
+        locallyInstalled = findLocalInstalled();
 
         // refresh silent update center first
         refreshSilentUpdateProvider();
@@ -97,7 +98,6 @@ public final class UpdateHandler {
                 return;
             }
         }
-        locallyInstalled = findLocalInstalled();
     }
 
     public static boolean isLicenseApproved(String license) {
