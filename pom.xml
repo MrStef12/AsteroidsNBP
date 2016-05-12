@@ -67,7 +67,8 @@
         <module>OSGiLauncher</module>
     <module>Enemy</module>
     <module>OSGiDeclarativeService</module>
-  </modules>
+        <module>SilentUpdate</module>
+    </modules>
 
     <properties>
         <netbeans.version>RELEASE81</netbeans.version>

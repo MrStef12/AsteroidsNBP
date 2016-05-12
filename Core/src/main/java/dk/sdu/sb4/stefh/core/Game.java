@@ -15,11 +15,14 @@ import dk.sdu.sb4.stefh.common.data.GameData;
 import dk.sdu.sb4.stefh.common.services.IEntityProcessingService;
 import dk.sdu.sb4.stefh.common.services.IGamePluginService;
 import dk.sdu.sb4.stefh.core.managers.GameInputProcessor;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 import org.openide.util.Lookup;
+import org.openide.util.LookupEvent;
+import org.openide.util.LookupListener;
 
 /**
  *
@@ -29,10 +32,11 @@ public class Game implements ApplicationListener {
     
     private static OrthographicCamera cam;
     private ShapeRenderer sr;
-
+    private final Lookup lookup = Lookup.getDefault();
     private final GameData gameData = new GameData();
-    private List<IEntityProcessingService> entityProcessors;
+    //private List<IEntityProcessingService> entityProcessors;
     private List<IGamePluginService> gamePlugins;
+    private Lookup.Result<IGamePluginService> result;
     private Map<String, Entity> world = new ConcurrentHashMap<>();
 
     @Override
@@ -50,15 +54,10 @@ public class Game implements ApplicationListener {
                 new GameInputProcessor(gameData)
         );
         
-        entityProcessors = new ArrayList<>();
-        gamePlugins = new ArrayList<>();
-        
-        entityProcessors.addAll(Lookup.getDefault().lookupAll(IEntityProcessingService.class));
-        gamePlugins.addAll(Lookup.getDefault().lookupAll(IGamePluginService.class));
-        
-        for(IGamePluginService p : gamePlugins) {
-            p.start(gameData, world);
-        }
+        gamePlugins = new CopyOnWriteArrayList<>();
+        result = lookup.lookupResult(IGamePluginService.class);
+        result.addLookupListener(lookupListener);
+        result.allItems();
     }
 
     @Override
@@ -76,7 +75,7 @@ public class Game implements ApplicationListener {
     private void update() {
         // Update
         for (Entity e : world.values()) {
-            for(IEntityProcessingService service : entityProcessors) {
+            for(IEntityProcessingService service : getEntityProcessingServices()) {
                 service.process(gameData, world, e);
             }
         }
@@ -102,6 +101,34 @@ public class Game implements ApplicationListener {
             }
         }
     }
+    
+    private Collection<? extends IEntityProcessingService> getEntityProcessingServices() {
+        return lookup.lookupAll(IEntityProcessingService.class);
+    }
+
+    private final LookupListener lookupListener = new LookupListener() {
+        @Override
+        public void resultChanged(LookupEvent le) {
+
+            Collection<? extends IGamePluginService> updated = result.allInstances();
+
+            for (IGamePluginService us : updated) {
+                // Newly installed modules
+                if (!gamePlugins.contains(us)) {
+                    us.start(gameData, world);
+                    gamePlugins.add(us);
+                }
+            }
+
+            // Stop and remove module
+            for (IGamePluginService gs : gamePlugins) {
+                if (!updated.contains(gs)) {
+                    gs.stop(gameData);
+                    gamePlugins.remove(gs);
+                }
+            }
+        }
+    };
     
     @Override
     public void resize(int width, int height) { }
