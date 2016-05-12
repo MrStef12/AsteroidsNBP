@@ -116,6 +116,7 @@ public class Game implements ApplicationListener {
                 // Newly installed modules
                 if (!gamePlugins.contains(us)) {
                     us.start(gameData, world);
+                    System.out.println("Something started");
                     gamePlugins.add(us);
                 }
             }
