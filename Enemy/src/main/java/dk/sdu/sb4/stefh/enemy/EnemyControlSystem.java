@@ -8,7 +8,6 @@ package dk.sdu.sb4.stefh.enemy;
 import dk.sdu.sb4.stefh.common.data.Entity;
 import dk.sdu.sb4.stefh.common.data.EntityType;
 import dk.sdu.sb4.stefh.common.data.GameData;
-import dk.sdu.sb4.stefh.common.data.GameKeys;
 import dk.sdu.sb4.stefh.common.services.IEntityProcessingService;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,15 +23,15 @@ public class EnemyControlSystem implements IEntityProcessingService {
     private float spawnTimer;
     private final float TIME_BETWEEN_SPAWN = 10;
     
-    private List<Entity> enemies = new ArrayList<>();
+    private Entity enemy;
 
     @Override
     public void process(GameData gameData, Map<String, Entity> world, Entity entity) {
-        if(enemies.isEmpty()) {
+        if(enemy == null) {
             if((spawnTimer += gameData.getDelta()) > TIME_BETWEEN_SPAWN) {
                 Entity e = createEnemy(gameData);
                 world.put(e.getID(), e);
-                enemies.add(e);
+                enemy = e;
                 spawnTimer = 0;
             }
         }
@@ -123,7 +122,7 @@ public class EnemyControlSystem implements IEntityProcessingService {
     
     private void destoyEnemy(Map<String, Entity> world, Entity e) {
         world.remove(e.getID());
-        enemies.remove(e);
+        enemy = null;
     }
     
 }
